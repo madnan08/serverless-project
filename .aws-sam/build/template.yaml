@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Globals:
+  Function:
+    Timeout: 30
+Resources:
+  MyLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: run.lambda_handler
+      Role: arn:aws:iam::294241522680:role/lambda-execution-role
+      Runtime: python3.8
+      ImageUri: 294241522680.dkr.ecr.us-east-1.amazonaws.com/serverless-project-2:latest
+      Environment:
+        Variables:
+          SQLALCHEMY_DATABASE_URI: mssql+pymssql://admin:madnan08@database-1.ctgasa8q401c.us-east-1.rds.amazonaws.com:1433/database-1
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: GET
+      CodeUri: MyLambdaFunction
+    Metadata:
+      SamResourceId: MyLambdaFunction
